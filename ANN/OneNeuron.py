@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 
 #   DATA
+# Desired Output
 yd=np.array([5,1,1,4])
 x=np.array([[3,-1,2,7],[-7,1,3,3],[13,0,4,9]]).reshape(3,4)
 w=np.array([0,0,0]).reshape(3,1)
@@ -18,7 +19,8 @@ for i in range(epoch):
 #feeforward
   for j in range(4):
       y=np.dot(np.transpose(w),x[:,j])
-  
+      print(y)
+      print('----------')
 # weighet update
       dw=(delt*lamd*x[:,j]/(np.dot(np.transpose(x[:,j]),x[:,j]))*(y-yd[j])).reshape(3,1)
       w=w-dw
@@ -30,7 +32,6 @@ for i in range(epoch):
         Yt3[i]=y
       elif j  == 3:
         Yt4[i]=y
- 
   T[i]=i
 
 plt.title("Neurone output")

@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from numpy.core.fromnumeric import argmax
 
 # Initialisation
 
@@ -12,7 +13,7 @@ n1 = 10
 #Number of neurons in layer2
 n2 = 5
 a = 1
-epoc = 100000
+epoc = 1000
 
 # initializing the weights and biases
 
@@ -24,7 +25,7 @@ W3 = a * (np.random.rand(2, n2) - 0.5 * np.ones((2, n2)))
 B3 = a * (np.random.rand(2, 1) - 0.5 * np.ones((2, 1)))
 E = np.zeros(epoc)
 
-Lr = 0.06
+Lr = 0.02
 
 #   PROCESS DATA
 X = np.array([[0, 1, 0, 1, 0, 1, 0, 1],
@@ -43,10 +44,10 @@ def dsig(x):
     y = sig(x) * (1 - sig(x))
     return y
 
-
 # START THE LEARNING PROCESS
 
 
+final_output = []
 
 for j in range(epoc):
     error = 0
@@ -74,16 +75,17 @@ for j in range(epoc):
         DB1 = (np.dot(np.transpose(W2), DB2)) * dsig(np.dot(W1, x) + B1)
         DW1 = np.dot(DB1, np.transpose(x))
 
-        B1 = B1 - Lr * DB1
         W1 = W1 - Lr * DW1
         B2 = B2 - Lr * DB2
         W2 = W2 - Lr * DW2
         B3 = B3 - Lr * DB3
         W3 = W3 - Lr * DW3
-
+        
+        if j == epoc -1:
+            true_val = argmax(Y)
+            final_output.append(true_val)
         error = error + np.dot(np.transpose(Y - yd), (Y - yd))
 
     E[j] = error
 
-plt.plot(E)
-plt.show()
+print(final_output)
